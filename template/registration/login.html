@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width={device-width}, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% if form.error %}
+        <p>Something Went Wrong</p>
+    {% endif %}
+
+
+    <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        <p>UserName:{{form.username}}</p>
+        <p>Password:{{form.password}}</p>
+        <input type="submit" value="login">
+    </form>
+
+    <p>for signup  {%  %}</p>
+
+</body>
+</html>
+
+
+{% block addpart %}
+   <style>
+     body{
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+    }
+    .heading{
+      text-align: center;
+    }
+    .side_text{
+      text-align: center; 
+    }
+    .container{
+        width: 550px;
+        margin: 70px auto;
+    }
+    .container>h1{
+        font-family: 'Roboto',  serif;
+    }
+    .login_input{
+        width: 100%;
+        box-sizing: border-box;
+        padding: 20px;
+        margin-bottom: 25px;
+        border: 2px solid #e9eaea;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.5s ease;
+        color: #3e3e40;
+    }
+    .login_input:focus{
+        border: 2px solid #9fb671;
+    }
+    @media (min-width:768px){
+      .login{
+        position: relative;
+        left: 200px;
+      }
+      .btn{
+        padding: 10px 100px;
+      }
+    }
+   </style>
+{% endblock  %}

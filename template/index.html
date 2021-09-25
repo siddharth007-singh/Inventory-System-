@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div id="content">
+        <div class="card shadow-lg mt-3" style="padding: 25px 25px;">
+            <div class="card-body">
+                <h1 class="text-center bolder head-txt"> <img src="../media/product/logo.png" alt="" id="image"> Inventory Management System</h1>
+                <div class="d-flex mt-5">
+                    <h3 class="left_text">Welcome , {{user.username}} <br>
+                        <span class="h6"><i class="fas fa-envelope-open-text"></i> {{user.email}}</span>
+                    </h3>
+                    <h5 class="ms-auto">
+                        <div id="clockdate">
+                            <div class="clockdate-wrapper">
+                              <div id="clock"></div>
+                              <div id="date"></div>
+                            </div>
+                        </div>
+                    </h5>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-lg-3 col-md-6 col-sm-3">
+                <div class="card mt-2 shadow-sm">
+                    <div class="card-body">
+                        <div class="">
+                            <h4><i class="fas fa-store" style="margin-left: 150px; font-size: 50px; color:palegreen;"></i></h4>
+                            <div class="row mt-4">
+                                <div class="d-flex">
+                                    <p class="small bold me-auto">Total Stocks</p>
+                                    <p class="small bold ms-auto"><strong>{{product}}</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-3">
+                <div class="card mt-2 shadow-sm">
+                    <div class="card-body">
+                        <div class="">
+                            <h4><i class="fas fa-user-friends" style="margin-left: 150px; font-size: 50px; color:orange;"></i></h4>
+                            <div class="row mt-4">
+                                <div class="d-flex">
+                                    <p class="small bold me-auto">Total Employee</p>
+                                    <p class="small bold ms-auto"><strong>{{users}}</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-3">
+                <div class="card mt-2 shadow-sm">
+                    <div class="card-body">
+                        <div class="">
+                            <h4><i class="fas fa-rupee-sign" style="margin-left: 150px; font-size: 50px; color:pink;"></i></h4>
+                            <div class="row mt-4">
+                                <div class="d-flex">
+                                    <p class="small bold me-auto">Total Order</p>
+                                    <p class="small bold ms-auto"><strong>{{order}}</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-3">
+                <div class="card mt-2 shadow-sm">
+                    <div class="card-body">
+                        <div class="">
+                            <h4><i class="far fa-credit-card" style="margin-left: 150px; font-size: 50px; color:palegreen;"></i></h4>
+                            <div class="row mt-4">
+                                <div class="d-flex">
+                                    <p class="small bold me-auto">Total Credit</p>
+                                    <p class="small bold ms-auto"><strong>{{credits}}</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class=" mt-4">
+            <div class="table-box">
+                <div class="table-row table-head">
+                    <div class="table-cell">
+                        <p>Image</p>
+                    </div>
+                    <div class="table-cell last-cell">
+                        <p>Product</p>
+                    </div> 
+                    <div class="table-cell">
+                        <p>Brand</p>
+                    </div>   
+                    <div class="table-cell">
+                        <p>Date & Time </p>
+                    </div> 
+                    <div class="table-cell last-cell">
+                        <p>Action</p>
+                    </div>
+                </div>
+
+                {% for p in pro %}
+                    <div class="table-row">
+                        <div class="table-cell first-cell">
+                            <p>
+                                <img src="{{p.image.url}}" alt="" width="50px" height="50px">
+                            </p>
+                        </div>
+                        <div class="table-cell">
+                            <p>{{p.name}}</p>
+                        </div>
+                        <div class="table-cell">
+                            <p>{{p.brand}}</p>
+                        </div>
+                        <div class="table-cell">
+                            <p>{{p.doc}}</p>
+                        </div>
+                        <div class="table-cell last-cell">
+                            <div class="btn-group">
+                                <a href="{% url 'delete_product' p.id %}"><i class="fas fa-trash-alt" style="color: red; font-size: 20px;"></i></a>
+                            </div>
+                        </div>   
+                    </div>
+                {% endfor %}
+            </div> 
+        </div>
+    </div>
+{% endblock %}
+
+
+
+{% block addpart %}
+    <style>
+        #image{
+            width: 50px;
+        }
+        .clockdate-wrapper {
+            color: #333;
+            padding:25px;
+            max-width:350px;
+            width:100%;
+            text-align:center;
+            border-radius:5px;
+            margin:0 auto;
+        
+        }
+        #clock{
+            font-family: sans-serif;
+            font-size:40px;
+            text-shadow:0px 0px 1px #fff;
+        }
+        #clock span {
+            color:#333;
+            font-size:40px;
+            position:relative;
+            top:1px;
+            left:10px;
+        }
+        #date {
+            letter-spacing:3px;
+            font-size:14px;
+            font-family:arial,sans-serif;
+            color:blue;
+        }
+        .table-row{
+            display: table;
+            width: 100%;
+            margin: 8px auto;
+            font-family: sans-serif;
+            background: transparent;
+            padding: 8px 0;
+            color: #555;
+            font-size: 12px;
+            box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+        }
+        .table-head{
+            background: #8665f7;
+            box-shadow: none;
+            color: #fff;
+            font-weight: 600;
+        }
+        .table-head .table-cell{
+            border-right: none;
+        }
+        .table-cell{
+            display: table-cell;
+            width: 20%;
+            text-align: center;
+            padding: 4px 0;
+            border-right: 1px solid #d6d4d4;
+            vertical-align: middle;
+        }
+        .first-cell{
+            padding-left: 10px;
+        }
+        .last-cell{
+            border-right: none;
+        }
+        a{
+            text-decoration: none;
+            color: #555;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .table-row {
+                font-size: 11px;
+            }
+        }
+        @media (min-width:768px){
+            .head-txt{
+                font-size: 2rem;
+            }
+            #clockdate{
+                position: relative;
+                bottom: 22px;
+            }
+        }
+    </style>
+
+    <script>
+        function startTime() {
+            var today = new Date();
+            var hr = today.getHours();
+            var min = today.getMinutes();
+            var sec = today.getSeconds();
+            ap = (hr < 12) ? "<span>AM</span>" : "<span>PM</span>";
+            hr = (hr == 0) ? 12 : hr;
+            hr = (hr > 12) ? hr - 12 : hr;
+            //Add a zero in front of numbers<10
+            hr = checkTime(hr);
+            min = checkTime(min);
+            sec = checkTime(sec);
+            document.getElementById("clock").innerHTML = hr + ":" + min + ":" + sec + " " + ap;
+            
+            var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            var curWeekDay = days[today.getDay()];
+            var curDay = today.getDate();
+            var curMonth = months[today.getMonth()];
+            var curYear = today.getFullYear();
+            var date = curWeekDay+", "+curDay+" "+curMonth+" "+curYear;
+            document.getElementById("date").innerHTML = date;
+            
+            var time = setTimeout(function(){ startTime() }, 500);
+        }
+        function checkTime(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+    </script>
+
+{% endblock  %}

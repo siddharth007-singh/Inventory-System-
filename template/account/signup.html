@@ -1,0 +1,70 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+    <div class="mt-5">
+      <h1 class="heading">{% trans "Sign Up" %}</h1>
+
+      <p class="side_text">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+      
+      <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <button type="submit" class="btn btn-primary btn-block">{% trans "Sign Up" %} &raquo;</button>
+      </form>      
+    </div>
+{% endblock %}
+
+
+{% block addpart %}
+   <style>
+     body{
+      margin: 0;
+      padding: 0;
+    }
+    .heading{
+      text-align: center;
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+    .side_text{
+      text-align: center;
+      color: grey;
+    }
+    .container{
+        width: 550px;
+        margin: 70px auto;
+    }
+    .container>h1{
+        font-family: 'Roboto',  serif;
+    }
+    .login_input{
+        width: 100%;
+        box-sizing: border-box;
+        padding: 20px;
+        margin-bottom: 25px;
+        border: 2px solid #e9eaea;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.5s ease;
+        color: #3e3e40;
+    }
+    .login_input:focus{
+        border: 2px solid #9fb671;
+    }
+    @media (min-width:768px){
+      .signup{
+        position: relative;
+        left: 580px;
+      }
+      .btn{
+        padding: 10px 150px;
+      }
+    }
+   </style>
+{% endblock  %}

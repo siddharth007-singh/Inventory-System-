@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card mt-5">
+                <div class="card-header"><h4 style="font-family: sans-serif;">Gendrate Order</h4></div>
+                <div class="card-body">
+                    <form action="" method="POST" id="indexForm" data-product-url="{% url 'ajax_load_product' %}" data-brand-url="{% url 'ajax_load_brand' %}" data-thick-url="{% url 'ajax_load_thick' %}" data-size-url="{% url 'ajax_load_size' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="" class="text-muted">Customer Name</label>
+                            <select name="c_id" id="" class="form-control mt-2">
+                                <option value="" class="text-small">Select Customer Name</option>
+                                {% for c in customer %}
+                                    <option value="{{c.id}}">{{c.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="card mt-4 shadow-lg">
+                            <div class="card-body">
+                                <h4 class="text-muted text-center">Product Listing</h4><hr style="margin-left: 400px; margin-right: 400px;">
+                                <!-- form of project -->
+                                <div class="form-group" id="insert_form">
+                                    <div class="input_field">
+                                        <Table class="table table-borderd table-sm table-hover mt-3" id="table"  data-product-url="{% url 'ajax_load_product' %}" data-brand-url="{% url 'ajax_load_brand' %}" data-thick-url="{% url 'ajax_load_thick' %}" data-size-url="{% url 'ajax_load_size' %}">
+                                            <tr>
+                                                <th>Category</th>
+                                                <th>Brand</th>
+                                                <th>Thickness</th>
+                                                <th>Sizing</th>
+                                                <th>Product</th>
+                                                <th>Quantity</th>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <select name="category" id="catddl" class="form-control">
+                                                        <option value="">Select category</option>
+                                                        {% for c in cat %}
+                                                            <option value="{{c.id}}">{{c.cat_name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="" id="branddl" class="form-control">
+                                                        <option value="">Select Brand</option>
+                                                        
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="" id="thickddl" class="form-control">
+                                                        <option value="">Select Thickness</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="" id="sizeddl" class="form-control">
+                                                        <option value="">Select Sizing</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="item[]" id="proddl" class="form-control">
+                                                        <option value="">Select Product</option>
+                                                        
+                                                    </select>
+                                                </td>
+                                                <td><input type="number" name="qty[]" id="quantity" class="form-control"></td>
+                                            </tr>
+                                        </Table>
+                                 </div>
+                            </div> 
+                            <div class="d-flex">
+                                <input type="button" value="Add New Rows" id="add" class="btn btn-info text-white mt-3 ms-auto btn-sm">
+                            </div>
+                        </div>
+                        </div>
+                        <div class="form-group mt-4">
+                            <label for="" class="text-muted">Discount Price <small class="small text-muted">(can be filled or empty)</small></label>
+                            <input type="number" name="discount_price" id="" class="form-control mt-2">
+                        </div> 
+                        <div class="form-group mt-2">
+                            <label for="" class="text-muted">Payment Method</label>
+                            <select name="pay_method" id="" class="form-control mt-2">
+                                <option value="">Select Option</option>
+                                <option value="Credit">Credit</option>
+                                <option value="Paid">Paid</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input type="submit" value="Order" class="btn btn-info mt-3 text-white me-auto btn-sm">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock  %} 
+
+
+{% block addpart %}
+    <script src="jquery-3.5.1.min.js"></script> 
+    <script type="text/javascript">
+            $(document).ready(function(){
+        
+                var html = '';
+                var x = 1;
+                $("#add").click(function(){
+                    $("#table").append(html);
+                });
+                $("#table").on('click','#remove',function(){
+                    $(this).closest('tr').remove();
+                });
+
+                $("#catddl").change(function () {
+                    var url = $("#indexForm").attr("data-brand-url");
+                    var categoryId = $(this).val(); 
+
+                    $.ajax({                    
+                        url: url,                    
+                        data: {
+                        'category': categoryId
+                        },
+                        success: function (data) {
+                            $("#branddl").html(data); 
+                        }
+                    });
+
+                });
+
+                $("#branddl").change(function () {
+                    var url = $("#indexForm").attr("data-thick-url");
+                    var brandId = $(this).val(); 
+
+                    $.ajax({                    
+                        url: url,                    
+                        data: {
+                        'brand': brandId
+                        },
+                        success: function (data) {
+                            $("#thickddl").html(data); 
+                        }
+                    });
+
+                });
+
+                $("#thickddl").change(function () {
+                    var url = $("#indexForm").attr("data-size-url");
+                    var thickid = $(this).val(); 
+
+                    $.ajax({                    
+                        url: url,                    
+                        data: {
+                        'thickness': thickid
+                        },
+                        success: function (data) {
+                            $("#sizeddl").html(data); 
+                        }
+                    });
+
+                });
+                
+                $("#sizeddl").change(function () {
+                    var url = $("#indexForm").attr("data-product-url");
+                    var sizeId = $(this).val();
+
+                    $.ajax({                    
+                        url: url,                    
+                        data: {
+                        'size': sizeId
+                        },
+                        success: function (data) {
+                            $("#proddl").html(data); 
+                        }
+                    });
+
+                });
+        })
+    </script>
+
+    <style>
+    .table-row{
+        display: table;
+        width: 100%;
+        margin: 10px auto;
+        font-family: sans-serif;
+        background: transparent;
+        padding: 10px 0;
+        color: #555;
+        font-size: 13px;
+        box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+    }
+    .table-head{
+        background: #8665f7;
+        box-shadow: none;
+        color: #fff;
+        font-weight: 600;
+    }
+    .table-head .table-cell{
+        border-right: none;
+    }
+    .table-cell{
+        display: table-cell;
+        width: 10%;            
+        text-align: center;
+        padding: 4px 0;
+        border-right: 1px solid #d6d4d4;
+        vertical-align: middle;
+    }
+    .first-cell{
+        padding-left: 1px;
+    }
+    .last-cell{
+        border-right: none;
+    }
+    a{
+        text-decoration: none;
+        color: #555;
+    }
+    @media only screen and (max-width: 600px) {
+    .table-row {
+        font-size: 11px;
+    }
+}
+  </style> 
+{% endblock  %}

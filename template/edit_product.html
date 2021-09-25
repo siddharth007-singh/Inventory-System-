@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        {% if messages %}
+            {% for message in messages %}
+                <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> 
+                    <div class="alert alert-primary" role="alert">
+                        {{message}}
+                        </div>
+                </li>
+            {% endfor %}
+        {% endif %}
+        {% load crispy_forms_tags %}
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                {{edit_form|crispy}}
+            </div>
+            <input type="submit" value="Edited">
+        </form>
+{% endblock %}

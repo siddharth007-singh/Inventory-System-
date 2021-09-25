@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body modelSize">
+                <div class="card shadow-lg">
+                    <div class="card-header text-center">Invoice Form</div>
+                            <div class="card-body">
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="">User Details</label>
+                                        <select name="c_id" id="" class="form-control">
+                                            <option value="">Select Option</option>
+                                                {% for c in customer %}
+                                                    <option value="{{c.id}}">{{c.name}}</option>
+                                                {% endfor %}
+                                        </select>
+                                    </div> 
+                                    <div class="form-group" id="insert_form">
+                                        <div class="input_field">
+                                                <Table class="table table-borderd table-sm table-hover mt-3" id="table">
+                                                    <tr>
+                                                        <th>Product</th>
+                                                        <th>Quantity</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><select name="item[]" id="" class="form-control">
+                                                            <option value="">Select Option</option>
+                                                            {% for p in pro %}
+                                                                <option value="{{p.id}}">{{p.name}}</option>
+                                                            {% endfor %}
+                                                        </select></td>
+                                                        <td><input type="number" name="qty[]" id="quantity" class="form-control"></td>
+                                                    </tr>
+                                                </Table>
+                                        </div>
+                                    </div>    
+                                    <div class="form-group mt-2">
+                                        <label for="">Discount Price <small class="small text-muted">(can be filled or empty)</small></label>
+                                        <input type="number" name="discount_price" id="" class="form-control mt-2">
+                                    </div> 
+                                    <div class="form-group mt-2">
+                                        <label for="">Payment Method</label>
+                                        <select name="pay_method" id="" class="form-control">
+                                            <option value="">Select Option</option>
+                                            <option value="Credit">Credit</option>
+                                            <option value="Paid">paid</option>
+                                        </select>
+                                    </div>                   
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <input type="submit" value="Order" class="btn btn-info mt-3 text-white me-auto btn-sm">
+                                            </div>
+                                            <div class="col-lg-6 d-flex">
+                                                <input type="button" value="Add New Rows" id="add" class="btn btn-info text-white mt-3 ms-auto btn-sm">
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mt-3">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <a href="{% url 'add_customer' %}" class="btn btn-sm btn-primary"><i class="fas fa-user-plus"></i> Add Customer</a>
+                    </div>
+                    <div class="col-lg-6 d-flex">
+                        <button type="button" class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-plus"></i> Create Order</button> 
+                        <!-- <a href="{% url 'order' %}" class="btn btn-primary btn-sm ms-auto" ><i class="fas fa-plus"></i> Create Order</a>  -->
+                    </div>
+                    <div class="d-flex">
+                        <form action="{% url 'searchcon' %}" method="GET" class="form-inline mt-2 ms-auto">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="search" class="form-control form-control-sm" name="search" placeholder="Search Recoard via contact.." size="70"> 
+                            </div>
+                        </form>
+                    </div>
+                     </div>
+                    </div>
+                </div>
+                
+                <div class="table-box">
+                    <div class="table-row table-head">
+                        <div class="table-cell first-cell">
+                            <p>ID</p>
+                        </div>
+                        <div class="table-cell">
+                            <p>Customer Name</p>
+                        </div>
+                        <div class="table-cell">
+                            <p>Contact Number</p>
+                        </div> 
+                        <div class="table-cell">
+                            <p>Mode Of Payment</p>
+                        </div>
+                        <div class="table-cell">
+                            <p>Date of Order</p>
+                        </div> 
+                        <div class="table-cell last-cell">
+                            <p>Action</p>
+                        </div> 
+                    </div>
+                    {% if order|length > 0 %}
+                    {% for o in order %}
+                        <div class="table-row">
+                            <div class="table-cell first-cell">
+                                <p>{{o.id}}</p>
+                            </div>
+                            <div class="table-cell">
+                                <p>{{o.c_id}}</p>
+                            </div>
+                            <div class="table-cell">
+                                <p>{{o.c_id.contact}}</p>
+                            </div>
+                            <div class="table-cell">
+                                <p>{{o.pay_method}}</p>
+                            </div>
+                            <div class="table-cell">
+                                <p>{{o.start_date}}</p>
+                            </div>
+                            <div class="table-cell last-cell">
+                                <div class="btn-group">
+                                    <a href="{% url 'delete_order' o.id %}" class="btn btn-danger btn-sm">Delete</a>
+                                    <a href="{% url 'order_view' o.id %}" class="btn btn-info btn-sm">View</a>
+                                </div>
+                            </div>   
+                        </div>
+                    {% endfor %}
+                    {% else %}
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-7 mx-auto">
+                                    <div class="alert alert-danger"><strong>Oop's!</strong><br>Not found any book regarding to this topic
+                                    <br>
+                                    <div class="text-center mt-3">
+                                        <a href="{% url 'home' %}" class="btn btn-info btn-sm">Go to Home</a>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+{% endblock  %}
+
+
+
+{% block addpart %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+        var html = '<tr><td><select name="item[]" id="" class="form-control"><option value="">Select Option</option>{% for p in pro %}<option value="{{p.id}}">{{p.name}}</option>{% endfor %}</select><td><input type="number" name="quantity" id="qty[]" class="form-control"></td> <td><input type="button" value="remove" id="remove" class="btn btn-danger btn-sm text-white"></td></tr>';
+        var x = 1;
+        $("#add").click(function(){
+            $("#table").append(html);
+        });
+        $("#table").on('click','#remove',function(){
+            $(this).closest('tr').remove();
+        });
+    })
+    </script>
+
+    <style>
+    .table-row{
+        display: table;
+        width: 100%;
+        margin: 10px auto;
+        font-family: sans-serif;
+        background: transparent;
+        padding: 10px 0;
+        color: #555;
+        font-size: 13px;
+        box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+    }
+    .table-head{
+        background: #8665f7;
+        box-shadow: none;
+        color: #fff;
+        font-weight: 600;
+    }
+    .table-head .table-cell{
+        border-right: none;
+    }
+    .table-cell{
+        display: table-cell;
+        width: 10%;            text-align: center;
+        padding: 4px 0;
+        border-right: 1px solid #d6d4d4;
+        vertical-align: middle;
+    }
+    .first-cell{
+        padding-left: 1px;
+    }
+    .last-cell{
+        border-right: none;
+    }
+    a{
+        text-decoration: none;
+        color: #555;
+    }
+    /* .modelSize{
+        width: 500px;
+    } */
+    @media only screen and (max-width: 600px) {
+    .table-row {
+        font-size: 11px;
+    }
+}
+  </style> 
+{% endblock  %}

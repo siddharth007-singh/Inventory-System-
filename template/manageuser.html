@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <div class="table-box">
+                <div class="table-row table-head">
+                    <div class="table-cell">
+                        <p>Username</p>
+                    </div>
+                    <div class="table-cell last-cell">
+                        <p>Email</p>
+                    </div> 
+                    <div class="table-cell">
+                        <p>Last Login details</p>
+                    </div>   
+                    <div class="table-cell">
+                        <p>Status</p>
+                    </div> 
+                    <div class="table-cell last-cell">
+                        <p>Action</p>
+                    </div>
+                </div>
+
+                {% for u in userdetails %}
+                    <div class="table-row">
+                        <div class="table-cell">
+                            <p>{{u.username}}</p>
+                        </div>
+                        <div class="table-cell">
+                            <p>{{u.email}}</p>
+                        </div>
+                        <div class="table-cell">
+                            <p>{{u.last_login}}</p>
+                        </div>
+                        <div class="table-cell">
+                           {% if u.is_staff %}
+                                <div class="btn btn-info btn-sm text-white">Staff</div>
+                            {% else %}
+                                <div class="btn btn-warning btn-sm text-white">User</div>
+                            {% endif %}
+                        </div>
+                        <div class="table-cell last-cell">
+                            <div class="btn-group">
+                                <td>
+                                    <a href="{% url 'deleteuser' u.id %}" class="btn btn-danger btn-sm">Delete</a>
+                                {% if u.is_staff %}
+                                    <a href="{% url 'disapproveuser' u.id %}" class="btn btn-warning btn-sm text-white">Disapproved</a>
+                                {% else %}
+                                    <a href="{% url 'approveuser' u.id %}" class="btn btn-info btn-sm text-white">Approve</a>
+                                {% endif %}
+                                </td>
+                            </div>
+                        </div>   
+                    </div>
+                {% endfor %}
+            </div>
+{% endblock %}
+
+
+{% block addpart %}
+    <style>
+        #image{
+            width: 50px;
+        }
+        .clockdate-wrapper {
+            color: #333;
+            padding:25px;
+            max-width:350px;
+            width:100%;
+            text-align:center;
+            border-radius:5px;
+            margin:0 auto;
+        
+        }
+        #clock{
+            font-family: sans-serif;
+            font-size:40px;
+            text-shadow:0px 0px 1px #fff;
+        }
+        #clock span {
+            color:#333;
+            font-size:40px;
+            position:relative;
+            top:1px;
+            left:10px;
+        }
+        #date {
+            letter-spacing:3px;
+            font-size:14px;
+            font-family:arial,sans-serif;
+            color:blue;
+        }
+        .table-row{
+            display: table;
+            width: 100%;
+            margin: 8px auto;
+            font-family: sans-serif;
+            background: transparent;
+            padding: 8px 0;
+            color: #555;
+            font-size: 12px;
+            box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+        }
+        .table-head{
+            background: #8665f7;
+            box-shadow: none;
+            color: #fff;
+            font-weight: 600;
+        }
+        .table-head .table-cell{
+            border-right: none;
+        }
+        .table-cell{
+            display: table-cell;
+            width: 20%;
+            text-align: center;
+            padding: 4px 0;
+            border-right: 1px solid #d6d4d4;
+            vertical-align: middle;
+        }
+        .first-cell{
+            padding-left: 10px;
+        }
+        .last-cell{
+            border-right: none;
+        }
+        a{
+            text-decoration: none;
+            color: #555;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .table-row {
+                font-size: 11px;
+            }
+        }
+        @media (min-width:768px){
+            .head-txt{
+                font-size: 2rem;
+            }
+            #clockdate{
+                position: relative;
+                bottom: 22px;
+            }
+
+        }
+    </style>
+{% endblock  %}

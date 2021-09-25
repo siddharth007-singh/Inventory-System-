@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+        <div class="row mt-5">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="">Name</label>
+                                <input type="text" name="name" id="" class="form-control mt-2">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="">Contact</label>
+                                <input type="text" name="contact" id="" class="form-control mt-2">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="">Address</label>
+                                <textarea name="address" id="" cols="30" rows="5" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Add Customer" class="btn btn-sm btn-info radius-10 mt-3 text-white submit_btn">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="table-box">
+                    <div class="table-row table-head">
+                        <div class="table-cell first-cell">
+                            <p>Customer Name</p>
+                        </div>
+                        <div class="table-cell">
+                            <p>Contact Number</p>
+                        </div>
+                        <div class="table-cell last-cell">
+                            <p>Address</p>
+                        </div> 
+                        <div class="table-cell last-cell">
+                            <p>Action</p>
+                        </div> 
+                    </div>
+                    {% for c in customer  %}
+                        <div class="table-row">
+                            <div class="table-cell first-cell">
+                                <p>{{c.name}}</p>
+                            </div>
+                            <div class="table-cell">
+                                <p>{{c.contact}}</p>
+                            </div>
+                            <div class="table-cell">
+                                <p>{{c.address}}</p>
+                            </div>
+                            <div class="table-cell last-cell">
+                                <div class="btn-group">
+                                    <a href="{% url 'delete_customer' c.id %}" class="btn btn-danger btn-sm">Delete</a>
+                                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{c.id}}">View</button>
+                                </div>
+                            </div>   
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Modal -->
+            {% for c in customer  %}
+                <div class="modal fade" id="exampleModal{{c.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <Table class="table table-stripped table-hover">
+                                <tr>
+                                    <th>Name:</th>
+                                    <td>{{c.name}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Contact:</th>
+                                    <td>{{c.contact}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Address:</th>
+                                    <td>{{c.address}}</td>
+                                </tr>
+                            </Table>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}  
+        </div>
+{% endblock  %}
+
+{% block addpart %}
+  <style>
+    .table-row{
+        display: table;
+        width: 100%;
+        margin: 10px auto;
+        font-family: sans-serif;
+        background: transparent;
+        padding: 12px 0;
+        color: #555;
+        font-size: 13px;
+        box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+    }
+    .table-head{
+        background: #8665f7;
+        box-shadow: none;
+        color: #fff;
+        font-weight: 600;
+    }
+    .submit_btn{
+        padding: 5px 165px;
+    }
+    .table-head .table-cell{
+        border-right: none;
+    }
+        .table-cell{
+            display: table-cell;
+            width: 20%;
+            text-align: center;
+            padding: 4px 0;
+            border-right: 1px solid #d6d4d4;
+            vertical-align: middle;
+        }
+        .first-cell{
+            text-align: left;
+            padding-left: 10px;
+        }
+        .last-cell{
+            border-right: none;
+        }
+        a{
+            text-decoration: none;
+            color: #555;
+        }
+
+        @media only screen and (max-width: 600px) {
+        .table-row {
+            font-size: 11px;
+        }
+        .submit_btn{
+             padding: 5px 165px;
+        }
+    }
+  </style>  
+{% endblock %}

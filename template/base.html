@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="jquery-3.5.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/91d402bf5f.js" crossorigin="anonymous"></script>
+
+    <style>
+      /* The sidebar menu */
+      .sidebar {
+        height: 100%; /* 100% Full-height */
+        width: 0; /* 0 width - change this with JavaScript */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Stay on top */
+        top: 0;
+        left: 0;
+        background-color:white; /* Black*/
+        overflow-x: hidden; /* Disable horizontal scroll */
+        padding-top: 60px; /* Place content 60px from the top */
+        transition: .3s; /* 0.5 second transition effect to slide in the sidebar */
+        border-right: 1px solid black;
+      }
+
+      /* The sidebar links */
+      .sidebar a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 18px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+      }
+
+      .text_dash{
+        font-size: 30px;
+        font-weight: bolder;
+      }
+
+      /* When you mouse over the navigation links, change their color */
+      .sidebar a:hover {
+        color:blue;
+      }
+
+      .text_dash{
+        position: relative;
+        bottom: 12px;
+        left: 15px;
+        font-family: 20px;
+      }
+
+      /* Position and style the close button (top right corner) */
+      .sidebar .closebtn {
+        position: absolute;
+        top: 17px;
+        right: 25px;
+        font-size: 25px;
+        margin-left: 50px;
+      }
+
+      /* The button used to open the sidebar */
+      .openbtn {
+        font-size: 15px;
+        cursor: pointer;
+        background-color: none;
+        color: white;
+      }
+
+      .openbtn:hover {
+        background-color: #444;
+      }
+
+      /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+      #main {
+        transition: margin-left .1s; /* If you want a transition effect */
+      }
+
+      /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+      @media screen and (max-height: 768px) {
+        .sidebar {padding-top: 30px;}
+        .sidebar a {font-size: 18px;}
+        
+      }
+    </style>
+
+    <script>
+      /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
+        function openNav() {
+          document.getElementById("mySidebar").style.width = "300px";
+          document.getElementById("main").style.marginLeft = "0px";
+        }
+
+        /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+        function closeNav() {
+          document.getElementById("mySidebar").style.width = "0";
+          document.getElementById("main").style.marginLeft = "0";
+        }
+    </script>
+
+    {% block addpart %}
+        
+    {% endblock %}
+
+    {% load static %}
+</head>
+  <body onload="startTime()">
+    {% block navbar %}
+      <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'Home' %}">Inventory management System</a>
+          <ul class="navbar-nav">
+            <li>
+              <div id="main">
+                <button class="openbtn btn btn-sm" onclick="openNav()" style="background-color: #6E85B2;">&#9776; Open Sidebar</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    {% endblock %}
+
+    <!-- sidebar -->
+      <div id="mySidebar" class="sidebar">
+        <div class="row">
+          <div class="col-lg-6 text_dash">Dashboard</div>
+          <div class="col-lg-6"><a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a></div>
+        </div>
+        <div class="list-group list-group-flush">
+              <a href="{% url 'Home' %}" class="list-group-item list-group-item-action small"><i class="fas fa-house-user"></i> Home</a>
+              <a href="{% url 'Products' %}" class="list-group-item list-group-item-action small"><i class="fas fa-tasks"></i> Manage Product</a>
+              <a href="{% url 'issue' %}" class="list-group-item list-group-item-action small"><i class="fas fa-passport"></i> Order Products</a>
+              <a href="{% url 'AddProduct' %}" class="list-group-item list-group-item-action small"> <i class="fas fa-shopping-bag"></i> Add Product</a>
+              <a href="{% url 'AddCategory' %}" class="list-group-item list-group-item-action small"><i class="fas fa-plus-square"></i> Add Category</a>
+              <a href="{% url 'AddBrand' %}" class="list-group-item list-group-item-action small"><i class="fas fa-plus-square"></i> Add Brands</a>
+              <a href="{% url 'Addsize' %}" class="list-group-item list-group-item-action small"><i class="fas fa-plus-square"></i> Add Size</a>
+              <a href="{% url 'thickness' %}" class="list-group-item list-group-item-action small"><i class="fas fa-plus-square"></i> Add Thickness</a>
+              <a href="{% url 'report' %}" class="list-group-item list-group-item-action small"><i class="fas fa-flag-checkered"></i> Report</a>
+              <a href="" class="list-group-item list-group-item-action small"><i class="fas fa-cogs"></i> Setting</a>
+              <a href="{% url 'add_customer' %}" class="list-group-item list-group-item-action small"><i class="fas fa-user-plus"></i> Add Customer</a>
+              <a href="{% url 'adduser' %}" class="list-group-item list-group-item-action small"><i class="fas fa-plus-square"></i> Add Emaployee</a>
+              <a href="{% url 'manageuser' %}" class="list-group-item list-group-item-action small">Manage User</a>
+              <a href="{% url 'account_logout' %}" class="list-group-item list-group-item-action small" style="color: red;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+      </div>
+    <!-- endsidebar -->
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          {% block content %} {% endblock %}
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'style.js' %}"></script>
+  </body>
+</html>
+
